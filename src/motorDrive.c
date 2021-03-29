@@ -12,7 +12,7 @@
 /*=====[Inclusions of private function dependencies]=========================*/
 
 /*=====[Definition macros of private constants]==============================*/
-#define dir0 GPIO2
+#define dir0 GPIO5
 #define dir1 GPIO3
 /*=====[Private function-like macros]========================================*/
 
@@ -23,7 +23,7 @@
 /*=====[Definitions of public global variables]==============================*/
 
 bool_t valor = 0;
-uint8_t  pwm1 = 150; /* 0 a 255 */
+uint8_t  pwm1 = 180; /* 0 a 255 */
 uint8_t  pwm2 = 0; /* 0 a 255 */
 uint8_t  pwm3 = 200; /* 0 a 255 para el giro*/
 
@@ -39,7 +39,7 @@ void motorDriveInit( void )
 	   valor = pwmConfig( 0, PWM_ENABLE );
 
 	   valor = pwmConfig( PWM5, PWM_ENABLE_OUTPUT );
-	   valor = pwmConfig( PWM6, PWM_ENABLE_OUTPUT );
+	   valor = pwmConfig( PWM4, PWM_ENABLE_OUTPUT );
 	   gpioInit(dir0, GPIO_OUTPUT);
 	   gpioInit(dir1, GPIO_OUTPUT);
 }
@@ -51,7 +51,7 @@ void motorDriveUpdate(motors_t motorstate)
 
     	case motorsFW:
 		pwmWrite( PWM5, pwm1);
-	    pwmWrite( PWM6, pwm1);
+	    pwmWrite( PWM4, pwm1);
 		 /* ambos motores hacia adelante */
     	gpioWrite(dir0, false );
     	gpioWrite(dir1, false );
@@ -59,7 +59,7 @@ void motorDriveUpdate(motors_t motorstate)
 
     	case motorsTR:
 	    pwmWrite( PWM5, pwm1);
-	    pwmWrite( PWM6, pwm3);
+	    pwmWrite( PWM4, pwm3);
 		 /* motores en contramarcha */
     	gpioWrite(dir0, false );
     	gpioWrite(dir1, true );
@@ -68,7 +68,7 @@ void motorDriveUpdate(motors_t motorstate)
 
     	case motorsTL:
 	    pwmWrite( PWM5, pwm3);
-	    pwmWrite( PWM6, pwm1);
+	    pwmWrite( PWM4, pwm1);
 		 /* motores en contramarcha */
     	gpioWrite(dir0, true );
     	gpioWrite(dir1, false);
@@ -76,9 +76,9 @@ void motorDriveUpdate(motors_t motorstate)
 
     	case motorsST:
 	    pwmWrite( PWM5, pwm2);
-	    pwmWrite( PWM6, pwm2);
-    	gpioWrite(dir0, true );
-    	gpioWrite(dir1, true );
+	    pwmWrite( PWM4, pwm2);
+    	gpioWrite(dir0, false );
+    	gpioWrite(dir1, false);
     		break;
 
     	default:
