@@ -13,6 +13,8 @@
 #include <motorDrive.h>
 
 /*=====[Definition macros of private constants]==============================*/
+#define rele LCD1
+#define buzzer LCD2
 
 /*=====[Private function-like macros]========================================*/
 
@@ -55,6 +57,8 @@ void statemachineInit(void)
     gpioInit(turnLeft, GPIO_OUTPUT);
     gpioInit(turnRight, GPIO_OUTPUT);
     gpioInit(stop, GPIO_OUTPUT);
+    gpioInit(rele, GPIO_OUTPUT);
+    gpioInit(buzzer, GPIO_OUTPUT);
 
     sensorsInit();
     motorDriveInit();
@@ -79,7 +83,8 @@ void statemachineUpdate(void)
         	gpioWrite(turnLeft, false );
         	gpioWrite(turnRight, false );
         	gpioWrite(stop, false );
-
+        	gpioWrite(rele, true );
+        	gpioWrite(buzzer,false);
         	// update motors
         	motorDriveUpdate(motorsFW);
 
@@ -106,6 +111,7 @@ void statemachineUpdate(void)
         	gpioWrite(turnLeft, false );
         	gpioWrite(turnRight, true );
         	gpioWrite(stop, false );
+        	gpioWrite(rele, false );
 
         	// update motors
         	motorDriveUpdate(motorsTR);
@@ -135,6 +141,7 @@ void statemachineUpdate(void)
         	gpioWrite(turnLeft, true );
         	gpioWrite(turnRight, false );
         	gpioWrite(stop, false );
+        	gpioWrite(rele, false );
 
         	// update motors
         	motorDriveUpdate(motorsTL);
@@ -162,7 +169,8 @@ void statemachineUpdate(void)
         	gpioWrite(turnLeft, false );
         	gpioWrite(turnRight, false );
         	gpioWrite(stop, true );
-
+        	gpioWrite(rele, false );
+        	gpioWrite(buzzer,false);
         	// update motors
         	motorDriveUpdate(motorsST);
 
@@ -172,6 +180,7 @@ void statemachineUpdate(void)
             	// only change if it is pressed some time
             	if ( contador >=pushCont){
             		contador=0;
+            		gpioWrite(buzzer, true );
             		actualState = FORWARD;
             		}
             	}
