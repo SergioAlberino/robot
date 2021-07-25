@@ -28,7 +28,9 @@ extern "C" {
 
 void statemachineInit(void);
 void statemachineUpdate(void);
-
+void double_piip(void);
+void one_piip(void);
+void clean_leds(void);
 
 /*=====[Prototypes (declarations) of public interrupt functions]=============*/
 

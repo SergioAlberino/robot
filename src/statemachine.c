@@ -65,6 +65,8 @@ void statemachineInit(void)
     actualState = STOPPED;
 }
 
+
+
 static void statemachineError(void)
 {
 	statemachineInit();
@@ -79,12 +81,12 @@ void statemachineUpdate(void)
 
     switch( actualState ){
         case FORWARD:
+        	clean_leds();
         	gpioWrite(goForward, true );
-        	gpioWrite(turnLeft, false );
-        	gpioWrite(turnRight, false );
-        	gpioWrite(stop, false );
+
         	gpioWrite(rele, true );
         	gpioWrite(buzzer,false);
+
         	// update motors
         	motorDriveUpdate(motorsFW);
 
@@ -102,15 +104,14 @@ void statemachineUpdate(void)
             	if ( contador >=pushCont){
             		contador=0;
             		actualState = STOPPED;
+            		one_piip();
             		}
                 }
         break;
         
         case TURN_R:	//Turning right
-        	gpioWrite(goForward, false );
-        	gpioWrite(turnLeft, false );
+        	clean_leds();
         	gpioWrite(turnRight, true );
-        	gpioWrite(stop, false );
         	gpioWrite(rele, false );
 
         	// update motors
@@ -137,10 +138,8 @@ void statemachineUpdate(void)
         break;
         
         case TURN_L:
-        	gpioWrite(goForward, false );
+        	clean_leds();
         	gpioWrite(turnLeft, true );
-        	gpioWrite(turnRight, false );
-        	gpioWrite(stop, false );
         	gpioWrite(rele, false );
 
         	// update motors
@@ -165,12 +164,10 @@ void statemachineUpdate(void)
         break;
         
         case STOPPED:
-        	gpioWrite(goForward, false );
-        	gpioWrite(turnLeft, false );
-        	gpioWrite(turnRight, false );
+        	clean_leds();
         	gpioWrite(stop, true );
         	gpioWrite(rele, false );
-        	gpioWrite(buzzer,false);
+
         	// update motors
         	motorDriveUpdate(motorsST);
 
@@ -180,7 +177,7 @@ void statemachineUpdate(void)
             	// only change if it is pressed some time
             	if ( contador >=pushCont){
             		contador=0;
-            		gpioWrite(buzzer, true );
+            		double_piip();
             		actualState = FORWARD;
             		}
             	}
@@ -190,9 +187,38 @@ void statemachineUpdate(void)
         	statemachineError();
         break;
     }
-    //contador++;
+
+
+
 }
 
+void double_piip(void)
+{
+	gpioWrite(buzzer, true );
+	delay(200);
+	gpioWrite(buzzer, false );
+	delay(100);
+	gpioWrite(buzzer, true );
+	delay(200);
+	gpioWrite(buzzer, false );
+}
+
+void one_piip(void)
+{
+	gpioWrite(buzzer, true );
+	delay(200);
+	gpioWrite(buzzer, false );
+
+}
+
+void clean_leds(void)
+{
+	gpioWrite(goForward, false );
+	gpioWrite(turnLeft, false );
+	gpioWrite(turnRight, false );
+	gpioWrite(stop, false );
+
+}
 /*=====[Implementations of interrupt functions]==============================*/
 
 /*=====[Implementations of private functions]================================*/
