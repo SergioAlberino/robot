@@ -85,6 +85,68 @@ void motorDriveUpdate(motors_t motorstate)
     		break;
     	}
 }
+    /**
+     * @brief Comando Tabulado
+     * @details Actualiza x Comando Tabulado de motores para Maquina de Estados
+     * @param COM: Número de Comando
+     * @param Parametro: Modificador del Comando
+     */
+    void SEL_COM (short COM,short Parametro)
+    {
+
+//    		if (Parametro > 255){    // Check if is there an obstacle in front
+//    			Parametro = 255;
+//                }
+
+    	switch(COM)
+    		{
+    		case 1:
+    			// Setea PWM1 y PWM2 para ir para ADELANTE
+    			pwmWrite( PWM5, Parametro);
+    			pwmWrite( PWM4, Parametro);
+    			/* ambos motores hacia adelante */
+            	gpioWrite(LED1, true );
+    			gpioWrite(dir0, false );
+    			gpioWrite(dir1, false );
+    				break;
+    		case 2:
+    			// Setea PWM1 y PWM2 para girar a la Izq
+    			pwmWrite( PWM5, Parametro*0.50);
+    		    pwmWrite( PWM4, Parametro*0.50);
+    			 /* motores en contramarcha */
+    	    	gpioWrite(dir0, true );
+    	    	gpioWrite(dir1, false);
+    				break;
+    		case 3:
+    				// Setea PWM1 y PWM2 para girar a la Der
+    		    pwmWrite( PWM5, Parametro*0.50);
+    		    pwmWrite( PWM4, Parametro*0.50);
+    			 /* motores en contramarcha */
+    	    	gpioWrite(dir0, true );
+    	    	gpioWrite(dir1, false);
+    				break;
+    		case 4:
+    				// Setea PWM1 y PWM2 para RETROCEDER
+    			pwmWrite( PWM5, Parametro);
+    			pwmWrite( PWM4, Parametro);
+    			/* ambos motores hacia adelante */
+    			gpioWrite(dir0, true);
+    			gpioWrite(dir1, true );
+    				break;
+    		case 5:
+    				// Setea PWM1 y PWM2 para detenerse
+    			pwmWrite( PWM5, 0);
+    			pwmWrite( PWM4, 0);
+    			/* ambos motores hacia adelante */
+    			gpioWrite(dir0, false );
+    			gpioWrite(dir1, false );
+    				break;
+
+    		default:
+    			// error: comando no soportado
+    				break;
+    		}
+}
 
 /*=====[Implementations of interrupt functions]==============================*/
 

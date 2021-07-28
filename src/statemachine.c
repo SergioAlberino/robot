@@ -41,6 +41,7 @@ typedef enum{
 
 int8_t  contador=0;
 int8_t  pushCont=50;
+int8_t  i=0;
 
 /*=====[Definitions of private global variables]=============================*/
 
@@ -83,12 +84,11 @@ void statemachineUpdate(void)
         case FORWARD:
         	clean_leds();
         	gpioWrite(goForward, true );
-
         	gpioWrite(rele, true );
-        	gpioWrite(buzzer,false);
 
         	// update motors
-        	motorDriveUpdate(motorsFW);
+        	//motorDriveUpdate(motorsFW);
+        	SEL_COM(1,180);
 
         	// Check if is there an obstacle at front and not at right
             if ( valSensorF && !(valSensorR)){    // Check if is there an obstacle in front
@@ -115,7 +115,9 @@ void statemachineUpdate(void)
         	gpioWrite(rele, false );
 
         	// update motors
-        	motorDriveUpdate(motorsTR);
+        	//motorDriveUpdate(motorsTR);
+        	SEL_COM(2,180);
+
          	// Check if is there an obstacle at front and at right
             if ( valSensorF && valSensorR){    // Check if is there an obstacle in front
             	actualState = TURN_L;
@@ -169,7 +171,8 @@ void statemachineUpdate(void)
         	gpioWrite(rele, false );
 
         	// update motors
-        	motorDriveUpdate(motorsST);
+        	//motorDriveUpdate(motorsST);
+        	SEL_COM(5,180);
 
             // if PushButton pressed go FORWARD
             if ( valPushButton){

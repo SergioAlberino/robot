@@ -21,6 +21,7 @@
 /*=====[Private function-like macros]========================================*/
 
 /*=====[Definitions of private data types]===================================*/
+unsigned char sensores=0x00;
 
 /*=====[Definitions of external public global variables]=====================*/
 
@@ -44,6 +45,28 @@ void sensorsUpdate( void)
 	valSensorF = !gpioRead( sensorF );
 	valSensorR = !gpioRead( sensorR);
 	valPushButton = !gpioRead( button );
+
+	sensores= valSensorF && valSensorR;
+
+
+	if(valSensorF!= 0)
+		{
+		sensores=sensores | 0x01;
+		}
+	    else
+		{
+	    sensores=sensores  & 0xFE;
+		}
+
+	if(valSensorR!= 0)
+		{
+		sensores=sensores | 0x02;
+		}
+	    else
+		{
+	    sensores=sensores  & 0xFD;
+		}
+
 }
 
 /*=====[Implementations of interrupt functions]==============================*/

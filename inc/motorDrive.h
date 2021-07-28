@@ -39,6 +39,13 @@ typedef enum{
 void motorDriveInit( void );
 void motorDriveUpdate(motors_t motorstate);
 
+/**
+ * @brief Comando Tabulado
+ * @details Actualiza x Comando Tabulado para Maquina de Estados
+ * @param COM: Número de Comando
+ * @param Parametro: Modificador del Comando
+ */
+void SEL_COM (short COM,short Parametro);
 /*=====[Prototypes (declarations) of public interrupt functions]=============*/
 
 /*=====[C++ - end]===========================================================*/
