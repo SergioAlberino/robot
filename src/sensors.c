@@ -22,6 +22,8 @@
 
 /*=====[Definitions of private data types]===================================*/
 unsigned char sensores=0x00;
+int8_t  contador=0;
+int8_t  pushCont=50;
 
 /*=====[Definitions of external public global variables]=====================*/
 
@@ -40,13 +42,20 @@ void sensorsInit( void )
     gpioInit(button, GPIO_INPUT);
 }
 
-void sensorsUpdate( void)
+void sensorsUpdate()
 {
 	valSensorF = !gpioRead( sensorF );
 	valSensorR = !gpioRead( sensorR);
 	valPushButton = !gpioRead( button );
+}
 
-	sensores= valSensorF && valSensorR;
+ unsigned char sensorsUpdatex(void)
+{
+	static uint32_t contador = 0;
+	sensores = 0;
+	valSensorF = !gpioRead( sensorF );
+	valSensorR = !gpioRead( sensorR);
+	valPushButton = !gpioRead( button );
 
 
 	if(valSensorF!= 0)
@@ -67,6 +76,20 @@ void sensorsUpdate( void)
 	    sensores=sensores  & 0xFD;
 		}
 
+	if (valPushButton){
+	           contador++;
+	           if ( contador >=pushCont){
+	           contador=0;
+	           sensores=sensores | 0x04;
+	           }
+	           else
+	           		{
+	           	    sensores=sensores  & 0xFB;
+	           		}
+		}
+
+
+	return sensores;
 }
 
 /*=====[Implementations of interrupt functions]==============================*/

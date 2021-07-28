@@ -105,7 +105,6 @@ void motorDriveUpdate(motors_t motorstate)
     			pwmWrite( PWM5, Parametro);
     			pwmWrite( PWM4, Parametro);
     			/* ambos motores hacia adelante */
-            	gpioWrite(LED1, true );
     			gpioWrite(dir0, false );
     			gpioWrite(dir1, false );
     				break;
