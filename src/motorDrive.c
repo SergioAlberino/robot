@@ -14,6 +14,8 @@
 /*=====[Definition macros of private constants]==============================*/
 #define dir0 GPIO5
 #define dir1 GPIO3
+#define rele LCD1
+#define buzzer LCD2
 /*=====[Private function-like macros]========================================*/
 
 /*=====[Definitions of private data types]===================================*/
@@ -23,9 +25,13 @@
 /*=====[Definitions of public global variables]==============================*/
 
 bool_t valor = 0;
-uint8_t  pwm1 = 180; /* 0 a 255 */
+uint8_t  pwm1 = 0; /* 0 a 255 */
 uint8_t  pwm2 = 0; /* 0 a 255 */
-uint8_t  pwm3 = 200; /* 0 a 255 para el giro*/
+uint8_t  pwm3 = 0; /* 0 a 255 */
+uint8_t  pwm1_ant= 0; /* 0 a 255 */
+uint8_t  pwm2_ant= 0; /* 0 a 255 */
+uint8_t  N=4;
+
 
 /*=====[Definitions of private global variables]=============================*/
 
@@ -44,47 +50,47 @@ void motorDriveInit( void )
 	   gpioInit(dir1, GPIO_OUTPUT);
 }
 
-void motorDriveUpdate(motors_t motorstate)
-{
-
-    switch( motorstate ){
-
-    	case motorsFW:
-		pwmWrite( PWM5, pwm1);
-	    pwmWrite( PWM4, pwm1);
-		 /* ambos motores hacia adelante */
-    	gpioWrite(dir0, false );
-    	gpioWrite(dir1, false );
-    		break;
-
-    	case motorsTR:
-	    pwmWrite( PWM5, pwm1);
-	    pwmWrite( PWM4, pwm3);
-		 /* motores en contramarcha */
-    	gpioWrite(dir0, false );
-    	gpioWrite(dir1, true );
-
-    		break;
-
-    	case motorsTL:
-	    pwmWrite( PWM5, pwm3);
-	    pwmWrite( PWM4, pwm1);
-		 /* motores en contramarcha */
-    	gpioWrite(dir0, true );
-    	gpioWrite(dir1, false);
-    		break;
-
-    	case motorsST:
-	    pwmWrite( PWM5, pwm2);
-	    pwmWrite( PWM4, pwm2);
-    	gpioWrite(dir0, false );
-    	gpioWrite(dir1, false);
-    		break;
-
-    	default:
-    		break;
-    	}
-}
+//void motorDriveUpdate(motors_t motorstate)
+//{
+//
+//    switch( motorstate ){
+//
+//    	case motorsFW:
+//		pwmWrite( PWM5, pwm1);
+//	    pwmWrite( PWM4, pwm1);
+//		 /* ambos motores hacia adelante */
+//    	gpioWrite(dir0, false );
+//    	gpioWrite(dir1, false );
+//    		break;
+//
+//    	case motorsTR:
+//	    pwmWrite( PWM5, pwm1);
+//	    pwmWrite( PWM4, pwm3);
+//		 /* motores en contramarcha */
+//    	gpioWrite(dir0, false );
+//    	gpioWrite(dir1, true );
+//
+//    		break;
+//
+//    	case motorsTL:
+//	    pwmWrite( PWM5, pwm3);
+//	    pwmWrite( PWM4, pwm1);
+//		 /* motores en contramarcha */
+//    	gpioWrite(dir0, true );
+//    	gpioWrite(dir1, false);
+//    		break;
+//
+//    	case motorsST:
+//	    pwmWrite( PWM5, pwm2);
+//	    pwmWrite( PWM4, pwm2);
+//    	gpioWrite(dir0, false );
+//    	gpioWrite(dir1, false);
+//    		break;
+//
+//    	default:
+//    		break;
+//    	}
+//}
     /**
      * @brief Comando Tabulado
      * @details Actualiza x Comando Tabulado de motores para Maquina de Estados
@@ -101,41 +107,51 @@ void motorDriveUpdate(motors_t motorstate)
     	switch(COM)
     		{
     		case 1:
+
+    			gpioWrite(rele, true );
     			// Setea PWM1 y PWM2 para ir para ADELANTE
-    			pwmWrite( PWM5, Parametro);
-    			pwmWrite( PWM4, Parametro);
+    			pwm1= Parametro;
+    			pwm2= Parametro;
+
     			/* ambos motores hacia adelante */
     			gpioWrite(dir0, false );
     			gpioWrite(dir1, false );
+
+
     				break;
     		case 2:
+    			gpioWrite(rele, false );
     			// Setea PWM1 y PWM2 para girar a la Izq
-    			pwmWrite( PWM5, Parametro*0.50);
-    		    pwmWrite( PWM4, Parametro*0.50);
+    			pwm1= Parametro*0.50;
+    			pwm2= Parametro*0.50;
+
     			 /* motores en contramarcha */
     	    	gpioWrite(dir0, true );
     	    	gpioWrite(dir1, false);
     				break;
     		case 3:
-    				// Setea PWM1 y PWM2 para girar a la Der
-    		    pwmWrite( PWM5, Parametro*0.50);
-    		    pwmWrite( PWM4, Parametro*0.50);
+    			gpioWrite(rele, false );
+    			// Setea PWM1 y PWM2 para girar a la Der
+    			pwm1= Parametro*0.50;
+    			pwm2= Parametro*0.50;
     			 /* motores en contramarcha */
-    	    	gpioWrite(dir0, true );
-    	    	gpioWrite(dir1, false);
+    	    	gpioWrite(dir0, false);
+    	    	gpioWrite(dir1, true );
     				break;
     		case 4:
-    				// Setea PWM1 y PWM2 para RETROCEDER
-    			pwmWrite( PWM5, Parametro);
-    			pwmWrite( PWM4, Parametro);
+    			gpioWrite(rele, false );
+    			// Setea PWM1 y PWM2 para RETROCEDER
+    			pwm1= Parametro;
+    			pwm2= Parametro;
     			/* ambos motores hacia adelante */
     			gpioWrite(dir0, true);
     			gpioWrite(dir1, true );
     				break;
     		case 5:
-    				// Setea PWM1 y PWM2 para detenerse
-    			pwmWrite( PWM5, 0);
-    			pwmWrite( PWM4, 0);
+    			gpioWrite(rele, false );
+    			// Setea PWM1 y PWM2 para detenerse
+    			pwm1= 0;
+    			pwm2= 0;
     			/* ambos motores hacia adelante */
     			gpioWrite(dir0, false );
     			gpioWrite(dir1, false );
@@ -145,6 +161,14 @@ void motorDriveUpdate(motors_t motorstate)
     			// error: comando no soportado
     				break;
     		}
+
+    	pwm1=pwm1_ant+(pwm1-pwm1_ant)/N;
+    	pwm2=pwm2_ant+(pwm2-pwm2_ant)/N;
+
+		pwmWrite( PWM5,pwm1);
+		pwmWrite( PWM4,pwm1);
+    	pwm1_ant=pwm1;
+       	pwm2_ant=pwm2;
 }
 
 /*=====[Implementations of interrupt functions]==============================*/
