@@ -12,6 +12,7 @@
 #include <statemachine.h>
 #include <motorDrive.h>
 #include <MdE.h>
+#include <com.h>
 
 /*=====[Definition macros of private constants]==============================*/
 #define rele LCD1
@@ -41,10 +42,12 @@ unsigned char INPUT1=0x00,INPUT2=0x00;
 unsigned char STATE= 0x00;
 unsigned char COM=1,Parametro=0;
 
+
 /*=====[Definitions of external public global variables]=====================*/
 
 /*=====[Definitions of public global variables]==============================*/
 int8_t  i=0;
+uint8_t READ=0;
 
 /*=====[Definitions of private global variables]=============================*/
 
@@ -65,6 +68,7 @@ void statemachineInit(void)
     gpioInit(buzzer, GPIO_OUTPUT);
 
     sensorsInit();
+    com_init();
     motorDriveInit();
     actualState = STOPPED;
 }
@@ -196,7 +200,8 @@ static void statemachineError(void)
 //}
     void statemachineUpdate(void)
     {
-        // Update state of sensors
+
+         // Update state of sensors
         INPUT2 = sensorsUpdatex();
         // *************** Rutina MdE. recorre la tabla, hasta que encuentra un Estado FF *****************
         	i=0;
@@ -239,7 +244,58 @@ void one_piip(void)
 void send_com(short COM,short Parametro, short STATENEW, short STATE )
 {
 	set_leds(COM);
-	SEL_COM (COM,Parametro);
+	READ= com();
+
+	 if(STATE==0 ) {// IF STOPPED
+
+		 if(READ== 'B') {
+			SEL_COM (4,0);
+			SEL_COM (4,150);
+			delay(200);
+			}
+		 if(READ == 'L') {
+			SEL_COM (2,200);
+			delay(400);
+			}
+		 if(READ == 'R') {
+			SEL_COM (3,200);
+			delay(400);
+			}
+//		 if(READ== 'S') {
+//			SEL_COM (5,0);
+//			delay(200);
+//			}
+		 if(READ== 'F') {
+			SEL_COM (1,200);
+			SEL_COM (1,200);
+			SEL_COM (1,200);
+			delay(400);
+
+			COM=1;
+			Parametro=250;
+			}
+
+		 if(READ== 'W') {
+				SEL_COM (6,0);
+				gpioWrite(buzzer, true );
+				delay(200);
+				gpioWrite(buzzer, false );
+//				delay(100);
+			}
+		 if(READ== ',w') {
+				SEL_COM (7,0);
+
+//				delay(100);
+			}
+		 if(READ== 'U') {
+			 STATE=1;
+			}
+
+	 	 }
+
+
+	 SEL_COM (COM,Parametro);
+
 	if (STATENEW==0 & STATE==1)
 			{
 			double_piip();

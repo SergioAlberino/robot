@@ -100,15 +100,14 @@ void motorDriveInit( void )
     void SEL_COM (short COM,short Parametro)
     {
 
-//    		if (Parametro > 255){    // Check if is there an obstacle in front
-//    			Parametro = 255;
-//                }
+    		if (Parametro > 255){    // Check if is there an obstacle in front
+    			Parametro = 255;
+                }
 
     	switch(COM)
     		{
     		case 1:
 
-    			gpioWrite(rele, true );
     			// Setea PWM1 y PWM2 para ir para ADELANTE
     			pwm1= Parametro;
     			pwm2= Parametro;
@@ -148,7 +147,7 @@ void motorDriveInit( void )
     			gpioWrite(dir1, true );
     				break;
     		case 5:
-    			gpioWrite(rele, false );
+
     			// Setea PWM1 y PWM2 para detenerse
     			pwm1= 0;
     			pwm2= 0;
@@ -157,6 +156,26 @@ void motorDriveInit( void )
     			gpioWrite(dir1, false );
     				break;
 
+    		case 6:
+   				gpioWrite(rele, true );
+    			break;
+
+    		case 7:
+        		gpioWrite(rele, false );
+    			break;
+
+    		case 8:
+
+    		    			// Setea PWM1 y PWM2 para ir para ADELANTE
+    		    			pwm1= Parametro;
+    		    			pwm2= Parametro;
+
+    		    			/* ambos motores hacia adelante */
+    		    			gpioWrite(dir0, false );
+    		    			gpioWrite(dir1, false );
+
+
+    		    				break;
     		default:
     			// error: comando no soportado
     				break;
