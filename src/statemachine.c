@@ -249,7 +249,6 @@ void send_com(short COM,short Parametro, short STATENEW, short STATE )
 	 if(STATE==0 ) {// IF STOPPED
 
 		 if(READ== 'B') {
-			SEL_COM (4,0);
 			SEL_COM (4,150);
 			delay(200);
 			}
@@ -261,10 +260,11 @@ void send_com(short COM,short Parametro, short STATENEW, short STATE )
 			SEL_COM (3,200);
 			delay(400);
 			}
-//		 if(READ== 'S') {
-//			SEL_COM (5,0);
-//			delay(200);
-//			}
+		 if(READ== 'S') {
+			SEL_COM (5,0);
+			delay(200);
+			}
+
 		 if(READ== 'F') {
 			SEL_COM (1,200);
 			SEL_COM (1,200);
@@ -290,11 +290,44 @@ void send_com(short COM,short Parametro, short STATENEW, short STATE )
 		 if(READ== 'U') {
 			 STATE=1;
 			}
-
+		 else {
+			 SEL_COM (COM,Parametro);
+		 	 }
 	 	 }
 
+//	 switch(READ){
+//
+//		    case 'B':
+//				SEL_COM (4,150);
+//		    		break;
+//		    case 'L':
+//				SEL_COM (2,200);
+//		    		break;
+//		    case 'R':
+//				SEL_COM (3,200);
+//		    		break;
+//		    case 'S':
+//				SEL_COM (5,0);
+//		    		break;
+//		    case 'F':
+//				SEL_COM (1,200);
+//
+//		    case 'W':
+//				SEL_COM (6,0);
+//				gpioWrite(buzzer, true );
+//				delay(200);
+//				gpioWrite(buzzer, false );
+//		    		break;
+//
+//		    case 'w':
+//				SEL_COM (7,0);
+//		    		break;
+//
+//		    	default:
+//
+//		    		break;
+//		    	}
 
-	 SEL_COM (COM,Parametro);
 
 	if (STATENEW==0 & STATE==1)
 			{
