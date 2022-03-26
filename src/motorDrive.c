@@ -104,7 +104,7 @@ void motorDriveInit( void )
     			Parametro = 255;
                 }
 
-    	switch(COM)
+    		switch(COM)
     		{
     		case 1:
 
@@ -117,26 +117,27 @@ void motorDriveInit( void )
     			gpioWrite(dir1, false );
 
 
-    				break;
+    			break;
     		case 2:
     			gpioWrite(rele, false );
     			// Setea PWM1 y PWM2 para girar a la Izq
     			pwm1= Parametro*0.50;
     			pwm2= Parametro*0.50;
 
-    			 /* motores en contramarcha */
-    	    	gpioWrite(dir0, true );
-    	    	gpioWrite(dir1, false);
-    				break;
+
+    			/* motores en contramarcha */
+    			gpioWrite(dir0, true );
+    			gpioWrite(dir1, false);
+    			break;
     		case 3:
     			gpioWrite(rele, false );
     			// Setea PWM1 y PWM2 para girar a la Der
     			pwm1= Parametro*0.50;
     			pwm2= Parametro*0.50;
-    			 /* motores en contramarcha */
-    	    	gpioWrite(dir0, false);
-    	    	gpioWrite(dir1, true );
-    				break;
+    			/* motores en contramarcha */
+    			gpioWrite(dir0, false);
+    			gpioWrite(dir1, true );
+    			break;
     		case 4:
     			gpioWrite(rele, false );
     			// Setea PWM1 y PWM2 para RETROCEDER
@@ -145,7 +146,7 @@ void motorDriveInit( void )
     			/* ambos motores hacia adelante */
     			gpioWrite(dir0, true);
     			gpioWrite(dir1, true );
-    				break;
+    			break;
     		case 5:
 
     			// Setea PWM1 y PWM2 para detenerse
@@ -154,28 +155,58 @@ void motorDriveInit( void )
     			/* ambos motores hacia adelante */
     			gpioWrite(dir0, false );
     			gpioWrite(dir1, false );
-    				break;
+    			break;
 
     		case 6:
-   				gpioWrite(rele, true );
+    			gpioWrite(rele, true );
     			break;
 
     		case 7:
-        		gpioWrite(rele, false );
+    			gpioWrite(rele, false );
     			break;
 
     		case 8:
 
-    		    			// Setea PWM1 y PWM2 para ir para ADELANTE
-    		    			pwm1= Parametro;
-    		    			pwm2= Parametro;
+    			// Setea PWM1 y PWM2 para ir para ADELANTE
+    			pwm1= Parametro;
+    			pwm2= Parametro;
 
-    		    			/* ambos motores hacia adelante */
-    		    			gpioWrite(dir0, false );
-    		    			gpioWrite(dir1, false );
+    			/* ambos motores hacia adelante */
+    			gpioWrite(dir0, false );
+    			gpioWrite(dir1, false );
 
 
-    		    				break;
+    			break;
+    		case 12:
+    			gpioWrite(rele, false );
+    			// Setea PWM1 y PWM2 para girar a la Der
+    			pwm1= Parametro*0.50;
+    			pwm2= Parametro*0.50;
+
+    			/* motores en contramarcha */
+    			gpioWrite(dir0, true );
+    			gpioWrite(dir1, false);
+
+    			pwmWrite( PWM5,pwm1);
+    			pwmWrite( PWM4,pwm1);
+    			delay(400);
+    			break;
+
+    		case 13:
+    			gpioWrite(rele, false );
+    			// Setea PWM1 y PWM2 para girar a la Der
+    			pwm1= Parametro*0.50;
+    			pwm2= Parametro*0.50;
+
+    			/* motores en contramarcha */
+    			gpioWrite(dir0, false);
+    			gpioWrite(dir1, true );
+
+    			pwmWrite( PWM5,pwm1);
+    			pwmWrite( PWM4,pwm1);
+    			delay(400);
+    			break;
+
     		default:
     			// error: comando no soportado
     				break;

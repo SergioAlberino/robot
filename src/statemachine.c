@@ -244,57 +244,64 @@ void one_piip(void)
 void send_com(short COM,short Parametro, short STATENEW, short STATE )
 {
 	set_leds(COM);
-	READ= com();
+	SEL_COM (COM,Parametro);
 
-	 if(STATE==0 ) {// IF STOPPED
+	 // version radiocontrol anterior
+//	READ= com();
+//
+//	 if(STATE==0 ) {// IF STOPPED
+//
+//		 if(READ== 'B') {
+//			SEL_COM (4,150);
+//			delay(200);
+//			}
+//		 if(READ == 'L') {
+//			SEL_COM (2,200);
+//			delay(400);
+//			}
+//		 if(READ == 'R') {
+//			SEL_COM (3,200);
+//			delay(400);
+//			}
+//		 if(READ== 'S') {
+//			SEL_COM (5,0);
+//			delay(200);
+//			}
+//
+//		 if(READ== 'F') {
+//			SEL_COM (1,200);
+//			SEL_COM (1,200);
+//			SEL_COM (1,200);
+//			delay(400);
+//
+//			COM=1;
+//			Parametro=250;
+//			}
+//
+//		 if(READ== 'W') {
+//				SEL_COM (6,0);
+//				gpioWrite(buzzer, true );
+//				delay(200);
+//				gpioWrite(buzzer, false );
+////				delay(100);
+//			}
+//		 if(READ== ',w') {
+//				SEL_COM (7,0);
+//
+////				delay(100);
+//			}
+//		 if(READ== 'U') {
+//			 STATE=1;
+//			}
+//		 else {
+//			 SEL_COM (COM,Parametro);
+//		 	 }
+//	 	 }
 
-		 if(READ== 'B') {
-			SEL_COM (4,150);
-			delay(200);
-			}
-		 if(READ == 'L') {
-			SEL_COM (2,200);
-			delay(400);
-			}
-		 if(READ == 'R') {
-			SEL_COM (3,200);
-			delay(400);
-			}
-		 if(READ== 'S') {
-			SEL_COM (5,0);
-			delay(200);
-			}
 
-		 if(READ== 'F') {
-			SEL_COM (1,200);
-			SEL_COM (1,200);
-			SEL_COM (1,200);
-			delay(400);
 
-			COM=1;
-			Parametro=250;
-			}
 
-		 if(READ== 'W') {
-				SEL_COM (6,0);
-				gpioWrite(buzzer, true );
-				delay(200);
-				gpioWrite(buzzer, false );
-//				delay(100);
-			}
-		 if(READ== ',w') {
-				SEL_COM (7,0);
-
-//				delay(100);
-			}
-		 if(READ== 'U') {
-			 STATE=1;
-			}
-		 else {
-			 SEL_COM (COM,Parametro);
-		 	 }
-	 	 }
-
+	 // version radiocontrol anterior
 //	 switch(READ){
 //
 //		    case 'B':
