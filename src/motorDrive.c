@@ -31,6 +31,8 @@ uint8_t  pwm3 = 0; /* 0 a 255 */
 uint8_t  pwm1_ant= 0; /* 0 a 255 */
 uint8_t  pwm2_ant= 0; /* 0 a 255 */
 uint8_t  N=4;
+int  t=0;
+
 
 
 /*=====[Definitions of private global variables]=============================*/
@@ -99,9 +101,11 @@ void motorDriveInit( void )
      */
     void SEL_COM (short COM,short Parametro)
     {
-
+    		t=0;
     		if (Parametro > 255){    // Check if is there an obstacle in front
     			Parametro = 255;
+    			gpioWrite(rele, false );
+
                 }
 
     		switch(COM)
@@ -111,10 +115,21 @@ void motorDriveInit( void )
     			// Setea PWM1 y PWM2 para ir para ADELANTE
     			pwm1= Parametro;
     			pwm2= Parametro;
+//    			gpioWrite(rele, true );
 
     			/* ambos motores hacia adelante */
     			gpioWrite(dir0, false );
     			gpioWrite(dir1, false );
+
+//    			pwmWrite( PWM5,pwm1);
+//    			pwmWrite( PWM4,pwm1);
+//    			delay(300);
+//    			pwm1= 0;
+//    			pwm2= 0;
+//    			pwmWrite( PWM5,pwm1);
+//    			pwmWrite( PWM4,pwm1);
+//    			delay(3000);
+//    			gpioWrite(rele, false );
 
 
     			break;
@@ -177,19 +192,33 @@ void motorDriveInit( void )
 
 
     			break;
+    		case 11:
+    			// Setea PWM1 y PWM2 para ir para ADELANTE
+    			pwm1= Parametro;
+    			pwm2= Parametro;
+
+    			/* ambos motores hacia adelante */
+    			gpioWrite(dir0, false );
+    			gpioWrite(dir1, false );
+    			pwmWrite( PWM5,pwm1);
+    			pwmWrite( PWM4,pwm1);
+    			delay(320);
+
+
+    			break;
     		case 12:
     			gpioWrite(rele, false );
-    			// Setea PWM1 y PWM2 para girar a la Der
+    			// Setea PWM1 y PWM2 para girar a la Izq
     			pwm1= Parametro*0.50;
     			pwm2= Parametro*0.50;
+
 
     			/* motores en contramarcha */
     			gpioWrite(dir0, true );
     			gpioWrite(dir1, false);
-
     			pwmWrite( PWM5,pwm1);
     			pwmWrite( PWM4,pwm1);
-    			delay(400);
+    			delay(420);
     			break;
 
     		case 13:
@@ -197,28 +226,96 @@ void motorDriveInit( void )
     			// Setea PWM1 y PWM2 para girar a la Der
     			pwm1= Parametro*0.50;
     			pwm2= Parametro*0.50;
-
     			/* motores en contramarcha */
     			gpioWrite(dir0, false);
     			gpioWrite(dir1, true );
+    			pwmWrite( PWM5,pwm1);
+    			pwmWrite( PWM4,pwm1);
+    			delay(320);
 
+    			break;
+    		case 14:
+    			// Setea PWM1 y PWM2 para girar a la Der
+    			pwm1= Parametro*0.50;
+    			pwm2= Parametro*0.50;
+    			/* motores en contramarcha */
+    			gpioWrite(dir0, false);
+    			gpioWrite(dir1, true );
+    			pwmWrite( PWM5,pwm1);
+    			pwmWrite( PWM4,pwm1);
+    			delay(320);
+
+    			// avanza
+    			pwm1= Parametro;;
+    			pwm2= Parametro;;
+    			/* ambos motores hacia adelante */
+    			gpioWrite(dir0, false );
+    			gpioWrite(dir1, false );
+    			pwmWrite( PWM5,pwm1);
+    			pwmWrite( PWM4,pwm1);
+    			delay(300);
+
+    			// Setea PWM1 y PWM2 para girar a la Der
+    			pwm1= Parametro*0.50;
+    			pwm2= Parametro*0.50;
+    			/* motores en contramarcha */
+    			gpioWrite(dir0, false);
+    			gpioWrite(dir1, true );
+    			pwmWrite( PWM5,pwm1);
+    			pwmWrite( PWM4,pwm1);
+    			delay(190);
+//    	    	pwm1_ant=pwm1;
+//    	       	pwm2_ant=pwm2;
+
+    			break;
+
+    		case 15:
+//    			// Setea PWM1 y PWM2 para girar a la Izq
+    			pwm1= Parametro*0.40;
+    			pwm2= Parametro*0.70;
+    			/* motores en contramarcha */
+    			gpioWrite(dir0, true );
+    			gpioWrite(dir1, false);
+    			pwmWrite( PWM5,pwm1);
+    			pwmWrite( PWM4,pwm1);
+    			delay(470);
+
+    			// avanza
+    			pwm1= Parametro;;
+    			pwm2= Parametro;;
+    			/* ambos motores hacia adelante */
+    			gpioWrite(dir0, false );
+    			gpioWrite(dir1, false );
+    			pwmWrite( PWM5,pwm1);
+    			pwmWrite( PWM4,pwm1);
+    			delay(410);
+
+    			// Setea PWM1 y PWM2 para girar a la Der
+    			pwm1= Parametro*0.40;
+    			pwm2= Parametro*0.70;
+    			/* motores en contramarcha */
+    			gpioWrite(dir0, true );
+    			gpioWrite(dir1, false);
     			pwmWrite( PWM5,pwm1);
     			pwmWrite( PWM4,pwm1);
     			delay(400);
-    			break;
+//    	    	pwm1_ant=pwm1;
+//    	       	pwm2_ant=pwm2;
 
+    			break;
     		default:
     			// error: comando no soportado
-    				break;
+    			break;
     		}
 
-    	pwm1=pwm1_ant+(pwm1-pwm1_ant)/N;
-    	pwm2=pwm2_ant+(pwm2-pwm2_ant)/N;
+//    	pwm1=pwm1_ant+(pwm1-pwm1_ant)/N;
+//    	pwm2=pwm2_ant+(pwm2-pwm2_ant)/N;
 
 		pwmWrite( PWM5,pwm1);
 		pwmWrite( PWM4,pwm1);
     	pwm1_ant=pwm1;
        	pwm2_ant=pwm2;
+       	delay(t);
 }
 
 /*=====[Implementations of interrupt functions]==============================*/

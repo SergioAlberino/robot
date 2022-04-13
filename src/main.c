@@ -30,7 +30,7 @@ int main(void)
 {
    // ----- Setup -----------------------------------
     delay_t sm;
-    delayInit( &sm, SM_PERIODICITY );
+delayInit( &sm, SM_PERIODICITY );
     
     statemachineInit();
 

@@ -29,6 +29,8 @@ extern "C" {
 bool_t valSensorF;
 bool_t valSensorR;
 bool_t valPushButton;
+bool_t valFC1;
+bool_t valFC2;
 int8_t status;
 /*=====[Prototypes (declarations) of public functions]=======================*/
 
